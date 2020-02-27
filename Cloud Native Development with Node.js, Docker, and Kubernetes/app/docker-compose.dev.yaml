@@ -1,17 +1,13 @@
 version: '3.6'
 
 services:
-  nodeserver-dev:
+  nodeserver:
     container_name: nodeserver-dev
+    image: nodeserver-dev:latest
     build:
       context: .
-      dockerfile: Dockerfile
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      dockerfile: Dockerfile.dev
     ports:
-      - 3000:3000
       - 9229:9229
     environment:
-      NODE_ENV: development
-    command: npm start
+      - NODE_ENV=development
