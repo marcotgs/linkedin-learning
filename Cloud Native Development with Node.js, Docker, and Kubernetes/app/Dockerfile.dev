@@ -5,11 +5,14 @@ WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
+COPY ./src ./
 
-# Install npm packages 
+
+# Install npm packages 4
 RUN npm install
 
 ENV PORT 3000
+ENV NODE_ENV development
 
 EXPOSE 3000
 
