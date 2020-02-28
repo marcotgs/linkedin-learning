@@ -6,8 +6,14 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY . /usr/src/app
 
+RUN apt-get update -y
+RUN apt-get dist-upgrade -y
+RUN apt-get install build-essential -y
+RUN apt-get install python -y
+
 # Install npm packages 
-RUN npm install --production --silent
+RUN npm install --production
+
 
 ENV PORT 3000
 ENV NODE_ENV production

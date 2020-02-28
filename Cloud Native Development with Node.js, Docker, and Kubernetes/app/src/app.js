@@ -24,13 +24,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-//Healthcheck endpoints
-app.use('/live', health.LivenessEndpoint(healthcheck));
-app.use('/health', health.HealthEndpoint(healthcheck))
-
 // ping check
 const pingCheck = new health.PingCheck('example.com');
-healthcheck.registerLivenessCheck(pingCheck);
+healthcheck.registerReadinessCheck(pingCheck);
+
+//Healthcheck endpoints
+app.use('/live', health.LivenessEndpoint(healthcheck));
+app.use('/health', health.HealthEndpoint(healthcheck));
+app.use('/ready', health.ReadinessEndpoint(healthcheck));
+
+//metrics
+app.use('/metrics', require('appmetrics-prometheus').endpoint());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
