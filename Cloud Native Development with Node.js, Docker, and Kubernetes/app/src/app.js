@@ -6,6 +6,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const health = require('@cloudnative/health-connect');
+let healthcheck = new health.HealthChecker();
 
 var app = express();
 
@@ -21,6 +23,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+//Healthcheck endpoints
+app.use('/live', health.LivenessEndpoint(healthcheck));
+app.use('/health', health.HealthEndpoint(healthcheck))
+
+// ping check
+const pingCheck = new health.PingCheck('example.com');
+healthcheck.registerLivenessCheck(pingCheck);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

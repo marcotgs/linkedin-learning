@@ -9,6 +9,7 @@
     "docker:prod": "docker-compose -f \"docker-compose.yaml\" -f \"docker-compose.prod.yaml\" up -d --build"
   },
   "dependencies": {
+    "@cloudnative/health-connect": "^2.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
