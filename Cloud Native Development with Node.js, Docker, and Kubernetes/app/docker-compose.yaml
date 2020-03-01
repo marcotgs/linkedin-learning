@@ -1,0 +1,9 @@
+version: '3.6'
+
+services:
+  nodeserver:
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000

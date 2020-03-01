@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:
+  nodeserver:
+    container_name: nodeserver-dev
+    image: nodeserver-dev:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 9229:9229
+    environment:
+      - NODE_ENV=development

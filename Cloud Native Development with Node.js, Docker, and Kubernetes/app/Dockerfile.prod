@@ -1,0 +1,25 @@
+FROM node:10-slim as prod
+
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+COPY . /usr/src/app
+
+RUN apt-get update -y
+RUN apt-get dist-upgrade -y
+RUN apt-get install build-essential -y
+RUN apt-get install python -y
+
+# Install npm packages 
+RUN npm install --production
+
+
+ENV PORT 3000
+ENV NODE_ENV production
+
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start:prod"]
+

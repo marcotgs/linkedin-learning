@@ -1,0 +1,11 @@
+version: '3.6'
+
+services:
+  nodeserver:
+    image: nodeserver-prod:latest
+    container_name: nodeserver-proddocke
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    environment:
+      - NODE_ENV=production
