@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import routes from './src/routes/crmRoutes';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
+import csurf from 'csurf';
 
 const app = express();
 const PORT = 3000;
@@ -13,6 +15,8 @@ const limiter = rateLimit({
     delayMs: 0,
 });
 
+//Security
+// app.use(cookieParser());
 app.use(helmet()); //helmet
 app.use(limiter); //express rate limit
 
@@ -39,3 +43,5 @@ app.get('/', (req, res) =>
 app.listen(PORT, () =>
     console.log(`your server is running on port ${PORT}`)
 );
+
+app.use(csurf({ cookie: true }));
