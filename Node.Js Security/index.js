@@ -16,7 +16,7 @@ const limiter = rateLimit({
 });
 
 //Security
-// app.use(cookieParser());
+app.use(cookieParser());
 app.use(helmet()); //helmet
 app.use(limiter); //express rate limit
 
