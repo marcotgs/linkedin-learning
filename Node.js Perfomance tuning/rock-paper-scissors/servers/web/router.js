@@ -30,7 +30,9 @@ router.param('game_id', async (request, response, next, id) => {
 });
 
 router.route('/games/:game_id')
-  .get(async (request, response) => {
+  .get(async (request, response, next) => {
+    if (!request.game) return next();
+
     const { body: rules } = await gamesClient.rules();
 
     const messages = [];

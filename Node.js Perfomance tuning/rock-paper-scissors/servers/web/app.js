@@ -3,8 +3,12 @@ const express = require('express');
 const playersClient = require('./lib/playersClient')(config.players);
 const path = require('path');
 const session = require('./session');
+const requestLogger = require('../shared/lib/request-logger');
+var expressRequestId = require('express-request-id')();
 
 const app = express();
+
+app.use(expressRequestId);
 
 app.set('x-powered-by', false);
 
@@ -38,6 +42,23 @@ app.use(async (request, response, next) => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(requestLogger);
+
 app.use(require('./router'));
+
+app.use((request, response) => {
+  console.warn(new Date().toISOString(), request.method, request.originalUrl, '404');
+  return response.status(404).render('404', {
+    title: '404',
+  });
+});
+
+app.use((error, _request, response, next) => {
+    if(response.headersSent) return next(error);
+    console.error(new Date().toISOString(), error);
+    return response.status(500).render('500', {
+      title: '500',
+    });
+});
 
 module.exports = app;
