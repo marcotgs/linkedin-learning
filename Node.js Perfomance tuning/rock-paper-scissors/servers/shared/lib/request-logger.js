@@ -1,7 +1,7 @@
 const morgan = require('morgan');
 const logger = require('./logger');
 
-const format  = 'dev';
+const format  = ':requestId :method :url :status :response-time ms';
 
 morgan.token('requestId', request => request.id); // adding request id
 
