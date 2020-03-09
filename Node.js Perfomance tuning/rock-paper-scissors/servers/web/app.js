@@ -47,7 +47,6 @@ app.use(requestLogger);
 app.use(require('./router'));
 
 app.use((request, response) => {
-  debugger;
   console.warn(new Date().toISOString(), request.method, request.originalUrl, '404');
   return response.status(404).render('404', {
     title: '404',
