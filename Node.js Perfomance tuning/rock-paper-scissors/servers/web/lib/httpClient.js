@@ -13,7 +13,7 @@ const formatRequestData = (requestObj, userOptions) => {
   }
   else {
     requestObj.body = JSON.stringify(body);
-    requestObj.headers = { 'Content-Type': 'application/json' };
+    requestObj.headers['Content-Type'] = 'application/json';
   }
 };
 
@@ -21,8 +21,10 @@ module.exports = async (userOptions, requestId) => {
   const requestObj = {
     method: userOptions.method,
     uri: userOptions.uri,
+    headers: {},
   };
   formatRequestData(requestObj, userOptions);
+  if (requestId) requestObj.headers['X-Request-Id'] = requestId;
   const response = await fetch(requestObj.uri, { ...requestObj });
   return response.json();
 };

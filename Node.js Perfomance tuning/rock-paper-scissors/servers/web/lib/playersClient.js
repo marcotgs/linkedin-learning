@@ -4,13 +4,14 @@ module.exports = (config) => {
   /**
    * Create a player.
    *
+   * @param {string} requestId X-Request-Id
    * @returns {Promise<Player>} New player.
    */
-  function create() {
+  function create(requestId) {
     return httpClient({
       uri: `${config.protocol}://${config.host}:${config.port}/api/v1/players`,
       method: 'POST',
-    });
+    }, requestId);
   }
 
   /**

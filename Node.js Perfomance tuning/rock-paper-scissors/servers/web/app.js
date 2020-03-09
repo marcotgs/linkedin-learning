@@ -34,7 +34,7 @@ app.use(async (request, response, next) => {
   if (request.session.playerId) {
     return next();
   }
-  const result = await playersClient.create();
+  const result = await playersClient.create(request.id);
   request.session.playerId = result.id;
   return next();
 });
@@ -42,7 +42,7 @@ app.use(async (request, response, next) => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// app.use(requestLogger);
+app.use(requestLogger);
 
 app.use(require('./router'));
 
