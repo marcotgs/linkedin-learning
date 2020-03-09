@@ -8,8 +8,8 @@ const router = new express.Router();
 router.route('/')
   .get((request, response) =>
     Promise.all([
-      gamesClient.fetch({ state: 'pending', limit: 3, order: 'asc' }),
-      gamesClient.fetch({ state: 'final', limit: 3, order: 'desc' }),
+      gamesClient.fetch({ state: 'pending', limit: 3, order: 'asc' }, request.id),
+      gamesClient.fetch({ state: 'final', limit: 3, order: 'desc' }, request.id),
     ]).then(([pendingFetch, finalFetch]) => [
       pendingFetch,
       finalFetch,
@@ -20,11 +20,11 @@ router.route('/')
     })));
 
 router.route('/games')
-  .post((request, response) => gamesClient.create(request.session.playerId)
+  .post((request, response) => gamesClient.create(request.session.playerId, request.id)
     .then(result => response.redirect(`/games/${result.id}`)));
 
 router.param('game_id', async (request, response, next, id) => {
-  request.game = await gamesClient.get(id);
+  request.game = await gamesClient.get(id, request.id);
   next();
 });
 
@@ -32,7 +32,7 @@ router.route('/games/:game_id')
   .get(async (request, response, next) => {
     if (!request.game) return next();
 
-    const rules = await gamesClient.rules();
+    const rules = await gamesClient.rules(request.id);
 
     const messages = [];
     if (request.session.message) {
@@ -60,7 +60,7 @@ router.route('/games/:game_id/choice')
       body.player2choice = request.body.choice;
     }
 
-    const result = await gamesClient.update(request.game.id, body);
+    const result = await gamesClient.update(request.game.id, body, request.id);
     if (result.state === 'pending' && result.player1choice !== null && result.player2choice !== null) {
       return response.redirect(307, `/games/${result.id}/judge`);
     }
@@ -72,7 +72,7 @@ router.route('/games/:game_id/join')
     if (isNull(request.game.player2id)) {
       const result = await gamesClient.update(request.game.id, {
         player2id: request.session.playerId,
-      });
+      }, request.id);
       return response.redirect(`/games/${result.id}`);
     }
     return next(new TypeError('Missing player2Id'));
@@ -80,7 +80,7 @@ router.route('/games/:game_id/join')
 
 router.route('/games/:game_id/judge')
   .post(async (request, response) => {
-    const game = await gamesClient.judge(request.game.id);
+    const game = await gamesClient.judge(request.game.id, request.id);
     if (isNull(game.playerWinnerId) && game.state === 'final') {
       request.session.message = { level: 'warning', body: 'You have tied.' };
     } else if (game.playerWinnerId === request.session.playerId) {

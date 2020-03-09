@@ -18,13 +18,16 @@ const formatRequestData = (requestObj, userOptions) => {
 };
 
 module.exports = async (userOptions, requestId) => {
+  if (!requestId) {
+    throw new TypeError('requestId is required');
+  }
   const requestObj = {
     method: userOptions.method,
     uri: userOptions.uri,
     headers: {},
   };
   formatRequestData(requestObj, userOptions);
-  if (requestId) requestObj.headers['X-Request-Id'] = requestId;
+  requestObj.headers['X-Request-Id'] = requestId;
   const response = await fetch(requestObj.uri, { ...requestObj });
   return response.json();
 };
