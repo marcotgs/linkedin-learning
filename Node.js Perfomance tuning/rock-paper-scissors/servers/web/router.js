@@ -11,8 +11,8 @@ router.route('/')
       gamesClient.fetch({ state: 'pending', limit: 3, order: 'asc' }),
       gamesClient.fetch({ state: 'final', limit: 3, order: 'desc' }),
     ]).then(([pendingFetch, finalFetch]) => [
-      pendingFetch.body,
-      finalFetch.body,
+      pendingFetch,
+      finalFetch,
     ]).then(([pending, final]) => response.render('index', {
       title: 'Home',
       pending,
@@ -21,11 +21,10 @@ router.route('/')
 
 router.route('/games')
   .post((request, response) => gamesClient.create(request.session.playerId)
-    .then(result => response.redirect(`/games/${result.body.id}`)));
+    .then(result => response.redirect(`/games/${result.id}`)));
 
 router.param('game_id', async (request, response, next, id) => {
-  const result = await gamesClient.get(id);
-  request.game = result.body;
+  request.game = await gamesClient.get(id);
   next();
 });
 
@@ -33,7 +32,7 @@ router.route('/games/:game_id')
   .get(async (request, response, next) => {
     if (!request.game) return next();
 
-    const { body: rules } = await gamesClient.rules();
+    const rules = await gamesClient.rules();
 
     const messages = [];
     if (request.session.message) {
@@ -62,10 +61,10 @@ router.route('/games/:game_id/choice')
     }
 
     const result = await gamesClient.update(request.game.id, body);
-    if (result.body.state === 'pending' && result.body.player1choice !== null && result.body.player2choice !== null) {
-      return response.redirect(307, `/games/${result.body.id}/judge`);
+    if (result.state === 'pending' && result.player1choice !== null && result.player2choice !== null) {
+      return response.redirect(307, `/games/${result.id}/judge`);
     }
-    return response.redirect(`/games/${result.body.id}`);
+    return response.redirect(`/games/${result.id}`);
   });
 
 router.route('/games/:game_id/join')
@@ -74,15 +73,14 @@ router.route('/games/:game_id/join')
       const result = await gamesClient.update(request.game.id, {
         player2id: request.session.playerId,
       });
-      return response.redirect(`/games/${result.body.id}`);
+      return response.redirect(`/games/${result.id}`);
     }
     return next(new TypeError('Missing player2Id'));
   });
 
 router.route('/games/:game_id/judge')
   .post(async (request, response) => {
-    const result = await gamesClient.judge(request.game.id);
-    const game = result.body;
+    const game = await gamesClient.judge(request.game.id);
     if (isNull(game.playerWinnerId) && game.state === 'final') {
       request.session.message = { level: 'warning', body: 'You have tied.' };
     } else if (game.playerWinnerId === request.session.playerId) {

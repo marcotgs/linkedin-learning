@@ -35,14 +35,14 @@ app.use(async (request, response, next) => {
     return next();
   }
   const result = await playersClient.create();
-  request.session.playerId = result.body.id;
+  request.session.playerId = result.id;
   return next();
 });
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(requestLogger);
+// app.use(requestLogger);
 
 app.use(require('./router'));
 
