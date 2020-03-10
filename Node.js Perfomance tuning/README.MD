@@ -33,6 +33,7 @@
  - Microservice rock, paper, scissors
  - Introducing PM2 for process management
  - Managing microservices with PM2
+
 ## 3. Effective Logging Strategies
 
  - Why and what should I log?
@@ -60,3 +61,8 @@
  - Benchmarking code with Winston
  - Profiling code execution
  - Conclusion
+
+ # References
+
+- [PM2](https://pm2.keymetrics.io/)
+- [Winston](https://github.com/winstonjs/winston#readme)
