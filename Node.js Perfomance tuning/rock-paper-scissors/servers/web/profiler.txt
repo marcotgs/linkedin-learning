@@ -1,0 +1,32 @@
+Statistical profiling result from isolate-000001E21C783600-17296-v8.log, (64664 ticks, 0 unaccounted, 0 excluded).
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+  64383   99.6%          C:\WINDOWS\SYSTEM32\ntdll.dll
+    280    0.4%          C:\Program Files\nodejs\node.exe
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+      1    0.0%  100.0%  LazyCompile: *resolve path.js:130:10
+
+ [C++]:
+   ticks  total  nonlib   name
+
+ [Summary]:
+   ticks  total  nonlib   name
+      1    0.0%  100.0%  JavaScript
+      0    0.0%    0.0%  C++
+     27    0.0%  2700.0%  GC
+  64663  100.0%          Shared libraries
+
+ [C++ entry points]:
+   ticks    cpp   total   name
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 1.0% are not shown.
+
+   ticks parent  name
+  64383   99.6%  C:\WINDOWS\SYSTEM32\ntdll.dll
+

@@ -1,0 +1,64 @@
+{
+  "name": "rock-paper-scissors",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=8"
+  },
+  "description": "Rock, Paper, Scissors",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc --reporter=text --reporter=html mocha ./test",
+    "db:migrate": "./node_modules/.bin/knex migrate:latest",
+    "start": "pm2 start ./pm2.config.js",
+    "pjv": "pjv -r -w",
+    "eslint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/fluxsauce/rock-paper-scissors.git"
+  },
+  "keywords": [
+    "express",
+    "game"
+  ],
+  "author": "Jon Peck <jpeck@fluxsauce.com>",
+  "contributors": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/fluxsauce/rock-paper-scissors/issues"
+  },
+  "homepage": "https://gitlab.com/fluxsauce/rock-paper-scissors#README",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "connect-session-knex": "^1.5.0",
+    "express": "^4.17.1",
+    "express-request-id": "^1.4.1",
+    "express-session": "^1.17.0",
+    "joi": "^14.3.1",
+    "jquery": "^3.4.1",
+    "knex": "^0.20.10",
+    "lodash": "^4.17.15",
+    "morgan": "^1.9.1",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.0",
+    "pm2": "^4.2.3",
+    "popper.js": "^1.16.1",
+    "pug": "^2.0.4",
+    "request": "^2.88.2",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-mocha": "^6.3.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "mocha": "^7.1.0",
+    "mock-knex": "^0.4.7",
+    "nyc": "^15.0.0",
+    "package-json-validator": "^0.6.3",
+    "proxyquire": "^2.1.3",
+    "supertest": "^4.0.2"
+  }
+}
