@@ -2,6 +2,7 @@ const config = require('./config');
 const express = require('express');
 const isNull = require('lodash/isNull');
 const gamesClient = require('./lib/gamesClient')(config.games);
+const logger = require('../shared/lib/logger');
 
 const router = new express.Router();
 
@@ -24,7 +25,9 @@ router.route('/games')
     .then(result => response.redirect(`/games/${result.id}`)));
 
 router.param('game_id', async (request, response, next, id) => {
+  const profiler = logger.startTimer();
   request.game = await gamesClient.get(id, request.id);
+  profiler.done({ message: `${request.id} getGameById  #${id}` });
   next();
 });
 
