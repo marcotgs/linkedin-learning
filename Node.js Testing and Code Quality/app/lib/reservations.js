@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const db = require('sqlite');
-const logger = require('../lib/logger');
-const logMeta = 'nadia:lib:reservations';
+const debug = require('debug')('nadia:lib:reservations');
 
 /**
  * Get all reservations.
@@ -45,7 +44,7 @@ function save(reservation) {
     reservation.message,
   ];
 
-  logger.info(`Saving ${values}`, logMeta);
+  debug(`Saving ${values}`);
 
   return db.run(sql, values);
 }
@@ -57,7 +56,7 @@ function save(reservation) {
  * @return {Promise<Reservation>} Normalized result.
  */
 function validate(reservation) {
-  logger.info(`Validating ${JSON.stringify(reservation)}`, logMeta);
+  debug(`Validating ${JSON.stringify(reservation)}`);
 
   return new Promise((resolve, reject) => {
     reservation.validator((error, value) => {

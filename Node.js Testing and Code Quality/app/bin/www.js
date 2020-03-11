@@ -5,10 +5,9 @@
  */
 
 var app = require('../app');
+var debug = require('debug')('nadia:server');
 var http = require('http');
 const db = require('sqlite');
-const logger = require('../lib/logger');
-const logMeta = 'nadia:server';
 
 /**
  * Get port from environment and store in Express.
@@ -28,25 +27,25 @@ var server = http.createServer(app);
  */
 
 // Connect to the database.
-Promise.resolve()
-  .then(() => {
-    logger.info('sqlite opening...', logMeta);
-    db.open('database.sqlite', { Promise })
-  })
-  .then(() => {
-    logger.info('sqlite migration running...', logMeta);
-    db.migrate({ force: 'last' });
-  })
-  .then(() => {
-    logger.info('sqlite connected', logMeta);
+ Promise.resolve()
+   .then(() => {
+     debug('sqlite opening...');
+     db.open('database.sqlite', { Promise })
+   })
+   .then(() => {
+     debug('sqlite migration running...')
+     db.migrate({ force: 'last' });
+   })
+   .then(() => {
+     debug('sqlite connected')
 
-    server.listen(port);
-    server.on('error', onError);
-    server.on('listening', onListening);
-  })
-  .catch(err => {
-    throw err;
-  });
+     server.listen(port);
+     server.on('error', onError);
+     server.on('listening', onListening);
+   })
+   .catch(err => {
+     throw err;
+   });
 
 /**
  * Normalize a port into a number, string, or false.
@@ -105,5 +104,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  logger.inf('Listening on ' + bind);
+  debug('Listening on ' + bind);
 }

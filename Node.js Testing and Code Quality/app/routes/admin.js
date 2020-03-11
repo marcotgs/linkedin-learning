@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-// var debug = require('debug')('nadia:route:admin')
+var debug = require('debug')('nadia:route:admin')
 const _ = require('lodash');
 const reservations = require('../lib/reservations');
 

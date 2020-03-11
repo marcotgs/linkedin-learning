@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var debug = require('debug')('nadia:route:reservations')
 const reservations = require('../lib/reservations');
 const Reservation = require('../lib/schema/reservation');
-const logger = require('../lib/logger');
-const logMeta = 'nadia:route:reservations';
 
 router.get('/', function(req, res, next) {
   res.render('reservations');
@@ -17,7 +16,7 @@ router.post('/', function(req, res, next) {
       reservationId
     }))
     .catch(err => {
-      logger(`${err.message} ${JSON.stringify(req.body)}`, logMeta);
+      debug(err.message, req.body);
       res.status(400).render('reservations', {
         errors: [
           err.message
