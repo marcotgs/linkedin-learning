@@ -26,6 +26,10 @@ The server persists using a SQLite3 database named `database.sqlite` in the site
 this project uses [Prettier](https://prettier.io/) to standardize text editor configuration.
 this project uses [Eslint](https://eslint.org) to detect suspicious code in Javascript files.
 
+## Testing
+
+This project user [Mocha](https://mochajs.org/) and [Chai](https://www.chaijs.com/) for testing.
+
 ### Debugging
 
 This project uses https://www.npmjs.com/package/debug for development logging. To start `nodemon` and enable logging:
