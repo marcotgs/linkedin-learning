@@ -14,7 +14,8 @@
 	},
 	"scripts": {
 		"debug": "cross-env DEBUG=nadia:* nodemon",
-		"start": "node bin/www"
+		"start": "node bin/www",
+		"eslint": "./node_modules/.bin/eslint"
 	},
 	"dependencies": {
 		"basic-auth": "^2.0.1",
