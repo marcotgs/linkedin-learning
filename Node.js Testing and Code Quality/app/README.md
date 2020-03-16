@@ -24,6 +24,7 @@ The server persists using a SQLite3 database named `database.sqlite` in the site
 ## Development
 
 this project uses [Prettier](https://prettier.io/) to standardize text editor configuration.
+this project uses [Eslint](https://eslint.org) to detect suspicious code in Javascript files.
 
 ### Debugging
 
