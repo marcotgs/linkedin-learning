@@ -8,7 +8,7 @@ const debug = require('debug')('nadia:lib:reservations');
  * @return {Promise} Result of SQL execution.
  */
 function getAll() {
-  return db.all('SELECT * FROM Reservation');
+	return db.all('SELECT * FROM Reservation');
 }
 
 /**
@@ -18,12 +18,13 @@ function getAll() {
  * @return {Promise<number>} Reservation ID.
  */
 function create(reservation) {
-  return new Promise((resolve, reject) => {
-    validate(reservation)
-      .then(module.exports.save)
-      .then(statement => resolve(statement.stmt.lastID))
-      .catch(error => reject(error));
-  });
+	return new Promise((resolve, reject) => {
+		module.exports
+			.validate(reservation)
+			.then(module.exports.save)
+			.then(statement => resolve(statement.stmt.lastID))
+			.catch(error => reject(error));
+	});
 }
 
 /**
@@ -33,20 +34,21 @@ function create(reservation) {
  * @return {Promise<Statement>} Result of SQL execution.
  */
 function save(reservation) {
-  const sql = 'INSERT INTO RESERVATION (datetime, party, name, email, phone, message) ' +
-    'VALUES (?, ?, ?, ?, ?, ?) ';
-  const values = [
-    reservation.datetime,
-    reservation.party,
-    reservation.name,
-    reservation.email,
-    reservation.phone,
-    reservation.message,
-  ];
+	const sql =
+		'INSERT INTO RESERVATION (datetime, party, name, email, phone, message) ' +
+		'VALUES (?, ?, ?, ?, ?, ?) ';
+	const values = [
+		reservation.datetime,
+		reservation.party,
+		reservation.name,
+		reservation.email,
+		reservation.phone,
+		reservation.message,
+	];
 
-  debug(`Saving ${values}`);
+	debug(`Saving ${values}`);
 
-  return db.run(sql, values);
+	return db.run(sql, values);
 }
 
 /**
@@ -56,21 +58,21 @@ function save(reservation) {
  * @return {Promise<Reservation>} Normalized result.
  */
 function validate(reservation) {
-  debug(`Validating ${JSON.stringify(reservation)}`);
+	debug(`Validating ${JSON.stringify(reservation)}`);
 
-  return new Promise((resolve, reject) => {
-    reservation.validator((error, value) => {
-      if (_.isNull(error)) {
-        return resolve(value);
-      }
-      return reject(error);
-    });
-  });
+	return new Promise((resolve, reject) => {
+		reservation.validator((error, value) => {
+			if (_.isNull(error)) {
+				return resolve(value);
+			}
+			return reject(error);
+		});
+	});
 }
 
 module.exports = {
-  create,
-  getAll,
-  save,
-  validate
-}
+	create,
+	getAll,
+	save,
+	validate,
+};

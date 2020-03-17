@@ -16,7 +16,8 @@
 		"debug": "cross-env DEBUG=nadia:* nodemon",
 		"start": "node bin/www",
 		"eslint": "./node_modules/.bin/eslint",
-		"test": "cross-env DEBUG=nadia:* mocha"
+		"test": "cross-env DEBUG=nadia:* mocha",
+		"coverage": "cross-env DEBUG=nadia:* nyc --reporter=text --reporter=html mocha"
 	},
 	"dependencies": {
 		"basic-auth": "^2.0.1",
@@ -40,6 +41,7 @@
 		"husky": "^4.2.3",
 		"mocha": "^7.1.0",
 		"nodemon": "^2.0.2",
+		"nyc": "^15.0.0",
 		"prettier": "1.19.1",
 		"pretty-quick": "^2.0.1",
 		"proxyquire": "^2.1.3",
